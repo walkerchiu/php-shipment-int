@@ -170,6 +170,17 @@ class ShipmentRepository extends Repository
         foreach ($records as $record) {
             if (!isset($list[$record->type]))
                 $list = array_merge($list, [$record->type => []]);
+
+            if ($record->type == 'shipany') {
+                array_push($list[$record->type], [
+                    'id'          => $record->id,
+                    'type'        => $record->type,
+                    'order'       => $record->order,
+                    'name'        => $record->findLangByKey('name'),
+                    'description' => $record->findLangByKey('description'),
+                    'note'        => $record->findLangByKey('note')
+                ]);
+            }
         }
 
         return $list;
@@ -210,6 +221,19 @@ class ShipmentRepository extends Repository
                 'is_enabled'     => $instance->is_enabled,
                 'updated_at'     => $instance->updated_at
             ];
+            if ($instance->shipany) {
+                $data['basic']['shipany'] = [
+                    'username'      => $instance->shipany->username,
+                    'password'      => $instance->shipany->password,
+                    'client_id'     => $instance->shipany->client_id,
+                    'client_secret' => $instance->shipany->client_secret,
+                    'callback_url'  => $instance->shipany->callback_url,
+                    'currency'      => $instance->shipany->currency,
+                    'locale'        => $instance->shipany->locale,
+                    'validate_ssl'  => $instance->shipany->validate_ssl,
+                    'intent'        => $instance->shipany->intent
+                ];
+            }
 
         } elseif (is_array($code)) {
             foreach ($code as $language) {
@@ -227,6 +251,19 @@ class ShipmentRepository extends Repository
                     'is_enabled'     => $instance->is_enabled,
                     'updated_at'     => $instance->updated_at
                 ];
+                if ($instance->shipany) {
+                    $data['basic'][$language]['shipany'] = [
+                        'username'      => $instance->shipany->username,
+                        'password'      => $instance->shipany->password,
+                        'client_id'     => $instance->shipany->client_id,
+                        'client_secret' => $instance->shipany->client_secret,
+                        'callback_url'  => $instance->shipany->callback_url,
+                        'currency'      => $instance->shipany->currency,
+                        'locale'        => $instance->shipany->locale,
+                        'validate_ssl'  => $instance->shipany->validate_ssl,
+                        'intent'        => $instance->shipany->intent
+                    ];
+                }
             }
         }
 

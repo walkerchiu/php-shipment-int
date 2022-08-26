@@ -43,9 +43,34 @@ class CreateWkShipmentTable extends Migration
                     ->onUpdate('cascade');
             });
         }
+        Schema::create(config('wk-core.table.shipment.shipany'), function (Blueprint $table) {
+            $table->uuid('id');
+            $table->nullableUuidMorphs('host');
+            $table->string('api_tk');
+            $table->string('password');
+            $table->string('client_id');
+            $table->string('client_secret');
+            $table->string('url_cancel')->nullable();
+            $table->string('url_return')->nullable();
+            $table->string('currency');
+            $table->string('locale', 5);
+            $table->string('intent');
+            $table->json('options')->nullable();
+
+            $table->timestampsTz();
+            $table->softDeletes();
+
+            $table->foreign('host_id')->references('id')
+                  ->on(config('wk-core.table.shipment.settings'))
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->primary('id');
+        });
     }
 
     public function down() {
+        Schema::dropIfExists(config('wk-core.table.shipment.shipany'));
         Schema::dropIfExists(config('wk-core.table.shipment.settings_lang'));
         Schema::dropIfExists(config('wk-core.table.shipment.settings'));
     }

@@ -49,6 +49,23 @@ class ShipmentFormRequest extends FormRequest
             'remarks'     => trans('php-shipment::shipment.remarks')
         ];
 
+        $request = Request::instance();
+        switch ($request->type) {
+            case "shipany":
+                $attributes = array_merge($attributes, [
+                    'username'      => trans('php-shipment::shipany.username'),
+                    'password'      => trans('php-shipment::shipany.password'),
+                    'client_id'     => trans('php-shipment::shipany.client_id'),
+                    'client_secret' => trans('php-shipment::shipany.client_secret'),
+                    'url_cancel'    => trans('php-shipment::shipany.url_cancel'),
+                    'url_return'    => trans('php-shipment::shipany.url_return'),
+                    'currency'      => trans('php-shipment::shipany.currency'),
+                    'locale'        => trans('php-shipment::shipany.locale'),
+                    'intent'        => trans('php-shipment::shipany.intent')
+                ]);
+                break;
+        }
+
         return $attributes;
     }
 
@@ -73,6 +90,29 @@ class ShipmentFormRequest extends FormRequest
             'note'        => '',
             'remarks'     => ''
         ];
+
+        $request = Request::instance();
+        if (
+            $request->isMethod('put')
+            && isset($request->id)
+        ) {
+            $rules = array_merge($rules, ['id' => ['required','string','exists:'.config('wk-core.table.shipment.shipany').',id']]);
+        }
+        switch ($request->type) {
+            case "shipany":
+                $rules = array_merge($rules, [
+                    'username'      => 'required|string|min:2|max:255',
+                    'password'      => 'required|string|min:6|max:255',
+                    'client_id'     => 'required|string',
+                    'client_secret' => 'required|string',
+                    'url_cancel'    => 'url',
+                    'url_return'    => 'url',
+                    'currency'      => 'required|string',
+                    'locale'        => ['required', Rule::in(config('wk-core.class.core.language')::getCodes())],
+                    'intent'        => 'required|string'
+                ]);
+                break;
+        }
 
         return $rules;
     }
@@ -104,6 +144,34 @@ class ShipmentFormRequest extends FormRequest
             'name.string'              => trans('php-core::validation.string'),
             'name.max'                 => trans('php-core::validation.max')
         ];
+
+        $request = Request::instance();
+        switch ($request->type) {
+            case "shipany":
+                $messages = array_merge($messages, [
+                    'username.required'      => trans('php-core::validation.required'),
+                    'username.string'        => trans('php-core::validation.string'),
+                    'username.min'           => trans('php-core::validation.min'),
+                    'username.max'           => trans('php-core::validation.max'),
+                    'password.required'      => trans('php-core::validation.required'),
+                    'password.string'        => trans('php-core::validation.string'),
+                    'password.min'           => trans('php-core::validation.min'),
+                    'password.max'           => trans('php-core::validation.max'),
+                    'client_id.required'     => trans('php-core::validation.required'),
+                    'client_id.string'       => trans('php-core::validation.string'),
+                    'client_secret.required' => trans('php-core::validation.required'),
+                    'client_secret.string'   => trans('php-core::validation.string'),
+                    'url_cancel.url'         => trans('php-core::validation.url'),
+                    'url_return.url'         => trans('php-core::validation.url'),
+                    'currency.required'      => trans('php-core::validation.required'),
+                    'currency.string'        => trans('php-core::validation.string'),
+                    'locale.required'        => trans('php-core::validation.required'),
+                    'locale.in'              => trans('php-core::validation.in'),
+                    'intent.required'        => trans('php-core::validation.required'),
+                    'intent.string'          => trans('php-core::validation.string')
+                ]);
+                break;
+        }
 
         return $messages;
     }

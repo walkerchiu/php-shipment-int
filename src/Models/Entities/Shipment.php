@@ -70,4 +70,12 @@ class Shipment extends Entity
     {
         return $this->morphTo();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shipany()
+    {
+        return $this->hasOne(config('wk-core.class.shipment.shipany'), 'host_id', 'id');
+    }
 }
