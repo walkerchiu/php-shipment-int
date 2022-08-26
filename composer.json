@@ -25,7 +25,8 @@
                 "WalkerChiu\\Shipment\\ShipmentServiceProvider"
             ],
             "aliases": {
-                "Shipment": "WalkerChiu\\Shipment\\Models\\Entities\\Shipment"
+                "Shipment": "WalkerChiu\\Shipment\\Models\\Entities\\Shipment",
+                "ShipAny":  "WalkerChiu\\Shipment\\Models\\Entities\\ShipAny"
             }
         }
     },

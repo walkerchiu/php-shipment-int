@@ -2,7 +2,7 @@
 
 namespace WalkerChiu\Shipment\Models\Observers;
 
-class ShipmentObserver
+class shipanyObserver
 {
     /**
      * Handle the entity "retrieved" event.
@@ -95,24 +95,12 @@ class ShipmentObserver
     /**
      * Handle the entity "deleted" event.
      *
-     * Its Lang will be automatically removed by database.
-     *
      * @param Entity  $entity
      * @return void
      */
     public function deleted($entity)
     {
-        if ($entity->isForceDeleting()) {
-            $entity->langs()->withTrashed()
-                            ->forceDelete();
-        }
-
-        if ($entity->shipany)
-            $entity->shipany->delete();
-
-        if (!config('wk-shipment.soft_delete')) {
-            $entity->forceDelete();
-        }
+        $entity->shipment->delete();
     }
 
     /**
@@ -134,7 +122,6 @@ class ShipmentObserver
      */
     public function restored($entity)
     {
-        if ($entity->shipany)
-            $entity->shipany->restore();
+        $entity->shipment->restore();
     }
 }

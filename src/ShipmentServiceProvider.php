@@ -49,6 +49,7 @@ class ShipmentServiceProvider extends ServiceProvider
 
         config('wk-core.class.shipment.shipment')::observe(config('wk-core.class.shipment.shipmentObserver'));
         config('wk-core.class.shipment.shipmentLang')::observe(config('wk-core.class.shipment.shipmentLangObserver'));
+        config('wk-core.class.shipment.shipany')::observe(config('wk-core.class.shipment.shipanyObserver'));
     }
 
     /**
