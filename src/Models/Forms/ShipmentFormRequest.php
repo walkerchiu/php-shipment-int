@@ -40,6 +40,7 @@ class ShipmentFormRequest extends FormRequest
             'serial'      => trans('php-shipment::system.serial'),
             'type'        => trans('php-shipment::system.type'),
             'order'       => trans('php-shipment::system.order'),
+            'options'     => trans('php-shipment::system.options'),
             'is_enabled'  => trans('php-shipment::system.is_enabled'),
 
             'name'        => trans('php-shipment::shipment.name'),
@@ -95,6 +96,7 @@ class ShipmentFormRequest extends FormRequest
             'serial'      => '',
             'type'        => '',
             'order'       => 'nullable|numeric|min:0',
+            'options'     => 'nullable|json',
             'is_enabled'  => 'required|boolean',
 
             'name'        => 'required|string|max:255',
@@ -160,6 +162,7 @@ class ShipmentFormRequest extends FormRequest
             'host_id.min'              => trans('php-core::validation.min'),
             'order.numeric'            => trans('php-core::validation.numeric'),
             'order.min'                => trans('php-core::validation.min'),
+            'options.json'             => trans('php-core::validation.json'),
             'is_enabled.required'      => trans('php-core::validation.required'),
             'is_enabled.boolean'       => trans('php-core::validation.boolean'),
 
