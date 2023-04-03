@@ -55,6 +55,7 @@ class CreateWkShipmentTable extends Migration
             $table->string('currency');
             $table->string('locale', 5);
             $table->string('intent');
+            $table->json('options')->nullable();
 
             $table->timestampsTz();
             $table->softDeletes();
